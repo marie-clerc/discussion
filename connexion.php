@@ -49,6 +49,9 @@
                     //on redirige sur la page index.php quand c'est terminer.
                     header ('location:index.php');
                 }
+                else {
+                    echo 'mdp incorrect';
+                }
             }
         }
     } //https://www.c2script.com/scripts/formulaire-de-connexion-en-php-s3.html
