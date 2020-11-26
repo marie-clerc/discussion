@@ -1,0 +1,210 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+    background-attachment: fixed;
+    height: 100vh;
+    width: 98%;
+}
+/*page index.php*/
+.index {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100vh;
+}
+.index .liens {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.liens a {
+    display: grid;
+    place-items: center;
+    border: 1px silver solid;
+    border-radius: 25px;
+    background-color: white;
+    padding: 5px;
+    text-decoration: none;
+    width: 20%;
+}
+.liens a p{
+    color: #adadad;
+    font-size: 20px;
+    text-decoration: none;
+}
+.liens a p:hover {
+    text-decoration: underline;
+}
+.liens a i {
+    font-size: 150px;
+    color: black;
+    text-decoration: none;
+}
+/*table de la page admin*/
+.admin {
+    text-align: center;
+}
+table {
+    border-collapse: collapse;
+    width: fit-content;
+    margin: auto;
+    margin-top: 20px;
+}
+.table table td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 2px;
+}
+
+/*formulaire, tous les form ont le même css*/
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 40%;
+    background-color: white;
+    border-radius: 10px;
+}
+.center h1 {
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+
+.center form {
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+form .txt_field {
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+.txt_field input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.txt_field label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+}
+.txt_field span::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #FF512F;
+    transition: .5s;
+}
+.txt_field input:focus ~ label, 
+.txt_field input:valid ~ label {
+    top: -5px;
+    color: #FF512F;
+}
+.txt_field input:focus ~ span::before, 
+.txt_field input:valid ~ span::before {
+    width: 100%;
+}
+.pass {
+    margin: -5px 0 20px 5px;
+    color: #a6a6a6;
+    cursor: pointer;
+}
+.pass:hover {
+    text-decoration: underline;
+}
+input[type="submit"], #deco{
+    width: 100%;
+    height: 50px;
+    border: 1px solid #F09819;
+    background-image: linear-gradient(to right, #FF512F 0%, #F09819  51%, #FF512F  100%);
+    transition: 0.9s;
+    background-size: 200% auto;
+    border-radius: 25px;
+    font-size: 18px;
+    color: #e9f4fb;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+}
+input[type="submit"]:hover, #deco:hover{
+    background-position: right center;
+    transition: .4s;
+}
+#deco, #chatbttn { /*bouton déconnexion page index */
+    width: 240px;
+}
+.signup_link {
+    margin: 30px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #666666;
+}
+.signup_link a {
+    color: #FF512F;
+    text-decoration: none;
+}
+.signup_link a:hover {
+    text-decoration: underline;
+}
+/*form de discussion*/
+#discussion {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100%;
+}
+.thread {
+    width: 90%;
+    background-color: black;
+    color: white;
+    min-height: 65vh;
+    max-height: 65vh;
+    border-radius: 10px;
+    padding: 9px;
+    margin: 10px 0;
+    overflow:auto;
+}
+#formthread {
+    display: grid;
+    place-items: center;
+    margin: 10px 0;
+    background-color: none;
+    width: 100%;
+}
+.post {
+    background-color: none;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.post input:not(#chatbttn) {
+    width: 78%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    border-radius: 15px;
+    background: white;
+    outline: none;
+}
+#chatbttn {
+    width: 19%;
+}
