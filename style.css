@@ -181,6 +181,10 @@ input[type="submit"]:hover, #deco:hover{
     margin: 10px 0;
     overflow:auto;
 }
+.gris {
+    color: rgb(124, 124, 124);
+    font-size: small;
+}
 #formthread {
     display: grid;
     place-items: center;
