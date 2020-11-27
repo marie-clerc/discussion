@@ -50,11 +50,20 @@
         $row = mysqli_fetch_array($query1);
         //je transforme ma ligne password (ligne de la bdd) en variable
         $hash = $row['password'];
+
+        //sécurise le mdt, du coup c'est le hashed qu'il faudra rentrée dans la bdd
+        $hashpass = password_hash($newpass, PASSWORD_BCRYPT);
+
         //je vérif si post password et le password dans bdd : row password, sont les mêmes
         if(password_verify($password, $hash)) //toujours dans cet ordre 
         {
+            /* problem
+            il faut faire deux boucles différentes 
+            un pour le nouveau mdp est vide
+            l'autre pour quand c'est aps vide */
+
             //on regarde s'il y a un nouveau mdp
-            if ((!empty($_POST['new_pass'])) || !empty($_POST['new_pass']))
+            if ((!empty($_POST['new_pass'])) || !empty($_POST['confirm_new_pass']))
             {
                 //vérifier si le nouveau mdp est assez long
                 if (strlen($_POST["new_pass"]) <3) 
@@ -66,27 +75,47 @@
                 {
                     echo 'les nouveaux mots de passe sont différents';
                 }
+                else
+                {
+                    //on se connecte à la base de données:
+                    $db = mysqli_connect('localhost','root', '', 'discussion');
+                    $sql = "UPDATE `utilisateurs` SET `login`= '$login', password='$hashpass' WHERE `id` = '$id'";
+                    // Requête de modification d'enregistrement dans la bd
+                    $query2 = mysqli_query ($db, $sql);
+                        
+                    //on redéfini les session avec les nouvelles informations (si on ne fait pas ça les modificatoins ne seront pas visible sur le form)
+                    $_SESSION['login'] = $login;
+                        
+                    //s'assurer que la requ^te a marché, car pas de redirection avec header location
+                    if ($query2) {
+                        echo 'la modification a été prise en compte';
+                    }
+                    else {
+                        echo 'la modification a échouée';
+                    }
+                }
             }//fin nouveau mdp
-
-            //sécurise le mdt, du coup c'est le hashed qu'il faudra rentrée dans la bdd
-            $hashpass = password_hash($newpass, PASSWORD_BCRYPT);
-
-            //on se connecte à la base de données:
-            $db = mysqli_connect('localhost','root', '', 'discussion');
-            $sql = "UPDATE `utilisateurs` SET `login`= '$login', password='$hashpass' WHERE `id` = '$id'";
-            // Requête de modification d'enregistrement dans la bd
-            $query2 = mysqli_query ($db, $sql);
             
-            //on redéfini les session avec les nouvelles informations (si on ne fait pas ça les modificatoins ne seront pas visible sur le form)
-            $_SESSION['login'] = $login;
-            
-            //s'assurer que la requ^te a marché, car pas de redirection avec header location
-            if ($query2) {
-                echo 'la modification a été prise en compte';
-            }
-            else {
-                echo 'la modification a échouée';
-            }
+
+            else if (empty($_POST['new_pass']))
+            {
+                //on se connecte à la base de données:
+                $db = mysqli_connect('localhost','root', '', 'discussion');
+                $sql = "UPDATE `utilisateurs` SET `login`= '$login' WHERE `id` = '$id'";
+                // Requête de modification d'enregistrement dans la bd
+                $query2 = mysqli_query ($db, $sql);
+                
+                //on redéfini les session avec les nouvelles informations (si on ne fait pas ça les modificatoins ne seront pas visible sur le form)
+                $_SESSION['login'] = $login;
+                
+                //s'assurer que la requ^te a marché, car pas de redirection avec header location
+                if ($query2) {
+                    echo 'la modification a été prise en compte';
+                }
+                else {
+                    echo 'la modification a échouée';
+                }
+            }// fin changement dans bdd quand new pass is empty
 
         }// fin password correct avec password verify
         else {
