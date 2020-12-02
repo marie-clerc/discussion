@@ -27,17 +27,20 @@
         $confirm = $_POST['confirm_new_pass'];
 
         //on vérif si le login a changé et s'il est déjà prit dans la bdd
-        if ( (isset($_POST['login'])) != (isset($_SESSION['login'])) )
+        if ((isset($_POST['login'])) && (isset($_SESSION['login'])) && (($_POST['login']) !=($_SESSION['login'])))
         {
             //on se connecte à la base de données:
             $db = mysqli_connect('localhost','root', '', 'discussion');
+            $sql = "SELECT * FROM `utilisateurs` WHERE `login`='$login'";
             //on fait la requête dans la bd pour rechercher si ces données existent:
-            $query = mysqli_query($db,"SELECT * FROM `utilisateurs` WHERE `login`='$login'");
+            $query = mysqli_query($db,$sql);
+            $var = mysqli_fetch_all($query);
             // si il y a un résultat, mysqli_num_rows() nous donnera alors 1
             // si mysqli_num_rows() retourne 0 c'est qu'il a trouvé aucun résultat
-            if(mysqli_num_rows($query) == 1) 
+            if(count($var) >0)
             {
-                echo 'login existe déjà';
+                echo ' <div class="signup_link">login existe déjà <br><a href="profil.php">Modifer mon profil</a><br><a href="index.php">Accueil</a></div>';
+                exit;
             }// fin login exisxt déjà
         }// fin isset changement du login
 
